@@ -2,6 +2,7 @@ package comp250;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -9,6 +10,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.security.Policy;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.jdom.JDOMException;
 
@@ -150,11 +153,14 @@ public class PlaySingleMatch {
         te = new TraceEntry(gs.getPhysicalGameState().clone(), gs.getTime());
         trace.addEntry(te);
         
-        XMLWriter xml;
 		try {
-			xml = new XMLWriter(new FileWriter(traceName));
-	        trace.toxml(xml);
-	        xml.flush();
+			ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(traceName));
+            zip.putNextEntry(new ZipEntry("game.xml"));
+            XMLWriter xml = new XMLWriter(new OutputStreamWriter(zip));
+            trace.toxml(xml);
+            xml.flush();
+            zip.closeEntry();
+            zip.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
