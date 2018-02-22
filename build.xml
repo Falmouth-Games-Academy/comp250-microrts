@@ -5,10 +5,10 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="microrts">
     <property environment="env"/>
-    <property name="bot.location" value="../bot"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
+    <import file="build_jar.xml"/>
     <path id="microrts.classpath">
         <pathelement location="bin"/>
         <pathelement location="lib/jdom.jar"/>
@@ -35,13 +35,5 @@
             <classpath refid="microrts.classpath"/>
         </javac>
     </target>
-    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
-        <ant antfile="build.xml" dir="${bot.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${bot.location}" inheritAll="false" target="build"/>
-    </target>
-    <target name="FrontEnd">
-        <java classname="gui.frontend.FrontEnd" failonerror="true" fork="yes">
-            <classpath refid="microrts.classpath"/>
-        </java>
-    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
 </project>
