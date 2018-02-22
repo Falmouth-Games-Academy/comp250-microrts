@@ -155,11 +155,19 @@ public class PlaySingleMatch {
         
 		try {
 			ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(traceName));
-            zip.putNextEntry(new ZipEntry("game.xml"));
+			
+            zip.putNextEntry(new ZipEntry("trace.xml"));
             XMLWriter xml = new XMLWriter(new OutputStreamWriter(zip));
             trace.toxml(xml);
             xml.flush();
             zip.closeEntry();
+            
+            zip.putNextEntry(new ZipEntry("result.json"));
+            BufferedWriter jsonWriter = new BufferedWriter(new OutputStreamWriter(zip));
+			result.writeTo(jsonWriter);
+			jsonWriter.flush();
+			zip.closeEntry();
+            
             zip.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
