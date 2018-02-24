@@ -36,7 +36,11 @@ public class PlaySingleMatch {
 	private static AI loadAI(String jarPath, String className, UnitTypeTable utt) throws Exception {
 		ClassLoader loader = new PluginClassLoader(new File(jarPath).toURI().toURL());
 		Class<?> cls = loader.loadClass(className);
-		return (AI)cls.getConstructor(UnitTypeTable.class, int.class).newInstance(utt, 100);
+		try {
+			return (AI)cls.getConstructor(UnitTypeTable.class, int.class).newInstance(utt, 100);
+		} catch (NoSuchMethodException error) {
+			return (AI)cls.getConstructor(UnitTypeTable.class).newInstance(utt);
+		}
 	}
 	
 	private static String getStackTrace(Exception ex) {
