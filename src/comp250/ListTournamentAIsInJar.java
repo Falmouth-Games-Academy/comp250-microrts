@@ -8,10 +8,12 @@ import java.security.Policy;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import ai.core.AI;
+import ai.core.AIWithComputationBudget;
 import tournaments.LoadTournamentAIs;
 
 public class ListTournamentAIsInJar {
-
+	
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		
 		Policy.setPolicy(new SandboxSecurityPolicy());
@@ -32,7 +34,7 @@ public class ListTournamentAIsInJar {
 			if (name.endsWith(".class")) {
 				String className = name.substring(0, name.length() - 6).replace('/', '.');
 				Class<?> c = loader.loadClass(className);
-				if (!Modifier.isAbstract(c.getModifiers()) && LoadTournamentAIs.isTournamentAIClass(c)) {
+				if (!Modifier.isAbstract(c.getModifiers()) && AI.class.isAssignableFrom(c)) {
 					System.out.println(className);
 				}
 			}
