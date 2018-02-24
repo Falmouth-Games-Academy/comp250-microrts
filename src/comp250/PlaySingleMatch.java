@@ -59,8 +59,10 @@ public class PlaySingleMatch {
 		try {
 			ai1 = loadAI(jar1, className1, gs.getUnitTypeTable());
 		} catch (Exception e1) {
-			result.set("stackTrace", getStackTrace(e1));
+			result.set("disqualified", 1);
 			result.set("winner", 2);
+			result.set("stackTrace", getStackTrace(e1));
+	        result.set("duration", -1);
 			return result;
 		}
 		
@@ -68,8 +70,10 @@ public class PlaySingleMatch {
 		try {
 			ai2 = loadAI(jar2, className2, gs.getUnitTypeTable());
 		} catch (Exception e1) {
-			result.set("stackTrace", getStackTrace(e1));
+			result.set("disqualified", 2);
 			result.set("winner", 1);
+			result.set("stackTrace", getStackTrace(e1));
+	        result.set("duration", -1);
 			return result;
 		}
 
@@ -78,8 +82,10 @@ public class PlaySingleMatch {
 			try {
 				pa1 = ai1.getAction(0, gs);
 			} catch (Exception e) {
-				result.set("stackTrace", getStackTrace(e));
+				result.set("disqualified", 1);
 				result.set("winner", 2);
+				result.set("stackTrace", getStackTrace(e));
+		        result.set("duration", gs.getTime());
 				return result;
 			}
 			
@@ -87,8 +93,10 @@ public class PlaySingleMatch {
 			try {
 				pa2 = ai2.getAction(1, gs);
 			} catch (Exception e) {
-				result.set("stackTrace", getStackTrace(e));
+				result.set("disqualified", 2);
 				result.set("winner", 1);
+				result.set("stackTrace", getStackTrace(e));
+		        result.set("duration", gs.getTime());
 				return result;
 			}
 			
@@ -141,15 +149,7 @@ public class PlaySingleMatch {
         trace.addEntry(te);
         
         JsonValue result = playMatch(jar1, className1, jar2, className2, gs, trace);
-
-        try {
-        	BufferedWriter stdout = new BufferedWriter(new OutputStreamWriter(System.out));
-			result.writeTo(stdout);
-			stdout.flush();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
+        
         te = new TraceEntry(gs.getPhysicalGameState().clone(), gs.getTime());
         trace.addEntry(te);
         
