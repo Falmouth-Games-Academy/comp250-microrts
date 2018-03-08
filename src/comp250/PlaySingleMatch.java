@@ -124,12 +124,10 @@ public class PlaySingleMatch {
 				return result;
 			}
 			
-            if (!pa1.isEmpty() || !pa2.isEmpty()) {
             	TraceEntry te = new TraceEntry(gs.getPhysicalGameState().clone(),gs.getTime());
                 te.addPlayerAction(pa1.clone());
                 te.addPlayerAction(pa2.clone());
                 trace.addEntry(te);
-            }
 
             gs.issueSafe(pa1);
             gs.issueSafe(pa2);
