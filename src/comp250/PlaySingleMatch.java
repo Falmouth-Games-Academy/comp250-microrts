@@ -198,6 +198,7 @@ public class PlaySingleMatch {
 			e.printStackTrace();
 		}
 		
+		// This ensures that any still-running threads get killed
 		System.exit(0);
 	}
 }
