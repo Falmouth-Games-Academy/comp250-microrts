@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.Policy;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -29,6 +32,7 @@ import rts.Trace;
 import rts.TraceEntry;
 import rts.units.UnitTypeTable;
 import tests.MapGenerator;
+import util.RunnableWithTimeOut;
 import util.XMLWriter;
 
 public class PlaySingleMatch {
@@ -61,7 +65,11 @@ public class PlaySingleMatch {
 		
         AI ai1;
 		try {
-			ai1 = loadAI(jar1, className1, gs.getUnitTypeTable());
+			ai1 = RunnableWithTimeOut.runWithTimeout(new Callable<AI>() {
+				public AI call() throws Exception {
+					return loadAI(jar1, className1, gs.getUnitTypeTable());
+				}
+			}, 1, TimeUnit.SECONDS);
 		} catch (Exception e1) {
 			result.set("disqualified", 1);
 			result.set("winner", 2);
@@ -72,7 +80,11 @@ public class PlaySingleMatch {
 		
         AI ai2;
 		try {
-			ai2 = loadAI(jar2, className2, gs.getUnitTypeTable());
+			ai2 = RunnableWithTimeOut.runWithTimeout(new Callable<AI>() {
+				public AI call() throws Exception {
+					return loadAI(jar2, className2, gs.getUnitTypeTable());
+				}
+			}, 1, TimeUnit.SECONDS);
 		} catch (Exception e1) {
 			result.set("disqualified", 2);
 			result.set("winner", 1);
@@ -84,7 +96,11 @@ public class PlaySingleMatch {
         do{
             PlayerAction pa1;
 			try {
-				pa1 = ai1.getAction(0, gs);
+				pa1 = RunnableWithTimeOut.runWithTimeout(new Callable<PlayerAction>() {
+					public PlayerAction call() throws Exception {
+						return ai1.getAction(0, gs);
+					}
+				}, 1, TimeUnit.SECONDS);
 			} catch (Exception e) {
 				result.set("disqualified", 1);
 				result.set("winner", 2);
@@ -95,7 +111,11 @@ public class PlaySingleMatch {
 			
             PlayerAction pa2;
 			try {
-				pa2 = ai2.getAction(1, gs);
+				pa2 = RunnableWithTimeOut.runWithTimeout(new Callable<PlayerAction>() {
+					public PlayerAction call() throws Exception {
+						return ai2.getAction(1, gs);
+					}
+				}, 1, TimeUnit.SECONDS);
 			} catch (Exception e) {
 				result.set("disqualified", 2);
 				result.set("winner", 1);
