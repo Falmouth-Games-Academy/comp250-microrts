@@ -2,7 +2,7 @@
 <?eclipse.ant.import?>
 
 <project basedir="." default="build" name="bot">
-    <property name="microrts.location" value="../microrts"/>
+    <property name="microrts.location" value=".."/>
     <target name="clean">
         <ant antfile="build.xml" dir="${microrts.location}" inheritAll="false" target="clean"/>
     </target>
