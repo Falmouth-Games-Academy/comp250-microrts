@@ -17,7 +17,7 @@ public class OverrideTournamentAIs {
 //				"ai.abstraction.partialobservability.POLightRush",
 //				"ai.abstraction.partialobservability.PORangedRush",
 //				"ai.abstraction.partialobservability.POWorkerRush",
-//				"ai.ahtn.AHTNAI",
+				"ai.ahtn.AHTNAI",
 //				"ai.core.ContinuingAI",
 //				"ai.core.PseudoContinuingAI",
 				"ai.mcts.believestatemcts.BS1_NaiveMCTS",
