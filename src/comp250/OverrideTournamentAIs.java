@@ -2,7 +2,7 @@ package comp250;
 
 public class OverrideTournamentAIs {
 	
-	public static String[] getClassNames() {
+	static String[] getClassNames() {
 		return new String[] {
 				"ai.PassiveAI",
 				"ai.RandomAI",
