@@ -3,13 +3,10 @@ package comp250;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.security.Policy;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -21,9 +18,6 @@ import org.jdom.JDOMException;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
-import ai.RandomBiasedAI;
-import ai.abstraction.WorkerRush;
-import ai.abstraction.pathfinding.BFSPathFinding;
 import ai.core.AI;
 import rts.GameState;
 import rts.PhysicalGameState;
@@ -31,15 +25,20 @@ import rts.PlayerAction;
 import rts.Trace;
 import rts.TraceEntry;
 import rts.units.UnitTypeTable;
-import tests.MapGenerator;
 import util.RunnableWithTimeOut;
 import util.XMLWriter;
 
 public class PlaySingleMatch {
 	
 	private static AI loadAI(String jarPath, String className, UnitTypeTable utt) throws Exception {
-		ClassLoader loader = new PluginClassLoader(new File(jarPath).toURI().toURL());
-		Class<?> cls = loader.loadClass(className);
+		Class<?> cls;
+		if (jarPath == ".") {
+			cls = Class.forName(className);
+		} else {
+			ClassLoader loader = new PluginClassLoader(new File(jarPath).toURI().toURL());
+			cls = loader.loadClass(className);
+		}
+		
 		try {
 			return (AI)cls.getConstructor(UnitTypeTable.class, int.class).newInstance(utt, 100);
 		} catch (NoSuchMethodException error) {
