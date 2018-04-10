@@ -99,7 +99,7 @@ public class PlaySingleMatch {
 					public PlayerAction call() throws Exception {
 						return ai1.getAction(0, gs);
 					}
-				}, 1, TimeUnit.SECONDS);
+				}, 150, TimeUnit.MILLISECONDS);
 			} catch (Exception e) {
 				result.set("disqualified", 1);
 				result.set("winner", 2);
@@ -114,7 +114,7 @@ public class PlaySingleMatch {
 					public PlayerAction call() throws Exception {
 						return ai2.getAction(1, gs);
 					}
-				}, 1, TimeUnit.SECONDS);
+				}, 150, TimeUnit.MILLISECONDS);
 			} catch (Exception e) {
 				result.set("disqualified", 2);
 				result.set("winner", 1);

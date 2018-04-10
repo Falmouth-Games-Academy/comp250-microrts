@@ -2,4 +2,5 @@
 /bin/
 *.tsv
 microrts.jar
+*.log
 
