@@ -97,7 +97,7 @@ public class PlaySingleMatch {
 			try {
 				pa1 = RunnableWithTimeOut.runWithTimeout(new Callable<PlayerAction>() {
 					public PlayerAction call() throws Exception {
-						return ai1.getAction(0, gs);
+						return ai1.getAction(0, gs.clone());
 					}
 				}, 150, TimeUnit.MILLISECONDS);
 			} catch (Exception e) {
@@ -112,7 +112,7 @@ public class PlaySingleMatch {
 			try {
 				pa2 = RunnableWithTimeOut.runWithTimeout(new Callable<PlayerAction>() {
 					public PlayerAction call() throws Exception {
-						return ai2.getAction(1, gs);
+						return ai2.getAction(1, gs.clone());
 					}
 				}, 150, TimeUnit.MILLISECONDS);
 			} catch (Exception e) {
