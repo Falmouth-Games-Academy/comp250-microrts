@@ -98,7 +98,7 @@ public class PlaySingleMatch {
 				pa1 = RunnableWithTimeOut.runWithTimeout(new Callable<PlayerAction>() {
 					public PlayerAction call() throws Exception {
 						GameState clone = gs.clone();
-						PlayerAction action = ai1.getAction(0, clone);
+						PlayerAction action = ai1.getAction(0, gs);
 						if (!gs.getPhysicalGameState().equivalents(clone.getPhysicalGameState())) {
 							throw new RuleViolationException("getAction modified the game state");
 						}
@@ -118,7 +118,7 @@ public class PlaySingleMatch {
 				pa2 = RunnableWithTimeOut.runWithTimeout(new Callable<PlayerAction>() {
 					public PlayerAction call() throws Exception {
 						GameState clone = gs.clone();
-						PlayerAction action = ai2.getAction(0, clone);
+						PlayerAction action = ai2.getAction(1, gs);
 						if (!gs.getPhysicalGameState().equivalents(clone.getPhysicalGameState())) {
 							throw new RuleViolationException("getAction modified the game state");
 						}
