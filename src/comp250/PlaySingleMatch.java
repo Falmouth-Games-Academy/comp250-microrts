@@ -97,7 +97,12 @@ public class PlaySingleMatch {
 			try {
 				pa1 = RunnableWithTimeOut.runWithTimeout(new Callable<PlayerAction>() {
 					public PlayerAction call() throws Exception {
-						return ai1.getAction(0, gs.clone());
+						GameState clone = gs.clone();
+						PlayerAction action = ai1.getAction(0, clone);
+						if (!gs.getPhysicalGameState().equivalents(clone.getPhysicalGameState())) {
+							throw new RuleViolationException("getAction modified the game state");
+						}
+						return action;
 					}
 				}, 150, TimeUnit.MILLISECONDS);
 			} catch (Exception e) {
@@ -112,7 +117,12 @@ public class PlaySingleMatch {
 			try {
 				pa2 = RunnableWithTimeOut.runWithTimeout(new Callable<PlayerAction>() {
 					public PlayerAction call() throws Exception {
-						return ai2.getAction(1, gs.clone());
+						GameState clone = gs.clone();
+						PlayerAction action = ai2.getAction(0, clone);
+						if (!gs.getPhysicalGameState().equivalents(clone.getPhysicalGameState())) {
+							throw new RuleViolationException("getAction modified the game state");
+						}
+						return action;
 					}
 				}, 150, TimeUnit.MILLISECONDS);
 			} catch (Exception e) {
